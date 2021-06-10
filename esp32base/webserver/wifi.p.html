@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="wifi.css">
+    <title>WIFI配网</title>
+</head>
+<body>
+    <div id="banner">
+        <h1>WIFI配网</h1>
+        <p>上报印务有限公司</p>
+    </div>
+    <div id="container">
+        <div class="input-row">
+            <label for="set-type">
+                <input type="checkbox" name="set-type" id="set-type" onchange="changeType()">
+                手动设置
+            </label>
+        </div>
+        <div class="input-row">
+            <input type="text" name="wifi-man" id="wifi-man" class="wifi-input" hidden>
+        </div>
+        <div class="input-row">
+            <select name="wifi-auto" id="wifi-auto" class="wifi-select">
+                {option}
+            </select>
+        </div>
+        <div class="input-row" id="wifi-pwd-row">
+            <input type="password" name="wifi-pwd" id="wifi-pwd" class="wifi-input" oninput="pwdchanged()">  
+        </div>
+        <div class="input-row" id="wifi-pwd-show-row">
+            <input type="text" name="wifi-pwd-show" id="wifi-pwd-show" class="wifi-input" oninput="pwdShowchanged()">  
+        </div>
+        <div id="show-pwd-row">
+            <label for="show-pwd">
+                <input type="checkbox" name="show-pwd" id="show-pwd" onchange="showPwdHandle()">
+                显示密码
+            </label>
+        </div>
+        <div class="input-row">
+            <button id="submit" onclick="submit()">确定</button>
+        </div>
+    </div>
+    <script src="wifi.js"></script>
+</body>
+</html>

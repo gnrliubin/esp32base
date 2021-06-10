@@ -1,0 +1,24 @@
+<!-- 更名为index.p.html会无故退出，猜测是因为没有模板变量匹配导致 -->
+<!-- 某些设备连接时经常报错 [Errno 110] ETIMEDOUT 致使得不到页面-->
+<!-- 将css文件剥离，则css获取是报错，问题css内容导致,精简css中初始化设置后，基本正常 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>配置</title>
+    
+</head>
+<body>
+    <div id="banner">
+        <h1>感应器模块设置</h1>
+        <p>上报印务有限公司</p>
+    </div>
+    <div id="button-container">
+        <div class="button-row"><button onclick="location.href='./webserver/wifi.p.html'">WIFI配网</button></div>
+        <div class="button-row"><button onclick="location.href='./webserver/position.html'">感应器位置</button></div>
+    </div>
+</body>
+</html>
