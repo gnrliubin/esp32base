@@ -1,5 +1,7 @@
 def main():
-    print("Welcome to RT-Thread MicroPython!")
+    global err
+
+    print(err)
     oled.fill(0)
     oled.text("app stop",0,0)
     

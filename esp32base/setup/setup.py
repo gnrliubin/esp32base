@@ -3,6 +3,8 @@ import random
 import ESP8266WebServer
 import ujson
 
+global err
+
 # 随机产生ssid
 apId = str(random.getrandbits(16))
 # apId = "esp"
@@ -16,13 +18,13 @@ ap.active(True)
 # 密码需要8位以上，否则会报错OSError: can't set AP config
 # 密码不能纯数字，否则会拒绝接入
 ap.config(essid=apId,password=pwd,channel=11)
-
+ip = ap.ifconfig()[0]
 
 sta = WLAN(STA_IF)
-sta.active
+sta.active(True)
 
 
-ip = ap.ifconfig()[0]
+
 
 # 屏幕提示信息
 oled.fill(0)
@@ -43,7 +45,16 @@ print("scaning stop")
 for ssid in ssids:
     print(ssid[0])
     ssidList+="<option value='"+ssid[0].decode()+"'>"+ssid[0].decode()+"</option>"
-print(ssidList)
+
+
+
+try:
+    with open('conf/inspectorOptions.conf','r') as f:
+        options = ujson.load(f)
+except Exception as e:
+    print('read inspectorOptions.conf:',e.__class__.__name__,e) 
+    err['info'] = 'write wifi.conf:'+e.__class__.__name__,e
+
 
 ledData = {
     "option":ssidList,
@@ -56,19 +67,24 @@ ledData = {
 
 
 def indexHandel(socket,args):
-    wifi = {
-        "ssid":args['ssid'],
-        "pwd":args['pwd']
-    }
-    try:
-        wifiJson=ujson.dumps(wifi)
-        print(wifiJson)
-        with open("setup/wifi.conf",'w') as f:
-            f.write(wifiJson)
-    except Exception as e :
-        print('错误明细是',e.__class__.__name__,e) 
+    
+    if 'ssid' in args and 'pwd' in args:
+        wifi = {
+            "ssid":args['ssid'],
+            "pwd":args['pwd']
+        }
+        try:
+            wifiJson=ujson.dumps(wifi)
+            print(wifiJson)
+            with open("conf/wifi.conf",'w') as f:
+                f.write(wifiJson)
+        except Exception as e :
+            print('write wifi.conf:',e.__class__.__name__,e) 
+            err['info'] = 'write wifi.conf:'+e.__class__.__name__,e
 
-    ESP8266WebServer.ok(socket,"200","ok")
+        ESP8266WebServer.ok(socket,"200","ok")
+    else:
+        ESP8266WebServer.ok(socket,"200","nothing to do")
 
 ESP8266WebServer.begin(80)
 
