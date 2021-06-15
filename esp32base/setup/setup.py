@@ -36,7 +36,7 @@ oled.text("open ip to setup",0,50)
 oled.show()
 
 ssidList = ""
-
+appsOption = ""
 
 print("scaning start")
 ssids = sta.scan()
@@ -48,17 +48,23 @@ for ssid in ssids:
 
 
 
+
 try:
-    with open('conf/inspectorOptions.conf','r') as f:
-        options = ujson.load(f)
+    with open('conf/appList.conf','r') as appList:
+        apps=ujson.load(appList)
+        for app in apps:
+            appsOption = appsOption+'''
+                <options value = "%s">%s</option>
+            ''' % (app,apps[app]["name"])
+        print(appsOption)
 except Exception as e:
-    print('read inspectorOptions.conf:',e.__class__.__name__,e) 
-    err['info'] = 'write wifi.conf:'+e.__class__.__name__,e
+    print('read app list:',e.__class__.__name__,e) 
+    err['info'] = 'read app list:'+e.__class__.__name__,e
 
 
 ledData = {
     "option":ssidList,
-    "equipName":"GOSS",
+    "appsOption":"GOSS",
     "equitNo":"1",
     "towerNo":"1",
     "towerPosition":"d",
