@@ -28,7 +28,16 @@ button, input, select, textarea { font-size:100%; }
     text-align: center;
 }
 .button-row{
-    margin-top: 50px;;
+    margin-top: 20px;;
+}
+.select-row{
+    margin-top: 50px;
+}
+#applist{
+    height: 50px;
+}
+.confirm-row{
+    margin-top: 10px;
 }
 button{
     width: 150px;

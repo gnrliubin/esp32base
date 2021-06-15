@@ -35,42 +35,42 @@ oled.text("ip:"+ip,0,40)
 oled.text("open ip to setup",0,50)
 oled.show()
 
-ssidList = ""
-appsOption = ""
-
-print("scaning start")
-ssids = sta.scan()
-print(ssids)
-print("scaning stop")
-for ssid in ssids:
-    print(ssid[0])
-    ssidList+="<option value='"+ssid[0].decode()+"'>"+ssid[0].decode()+"</option>"
 
 
 
+def scanWIFI():
+    ssidList = ""
+    print("scaning start")
+    ssids = sta.scan()
+    print("scaning stop")
+    for ssid in ssids:
+        ssidList+="<option value='"+ssid[0].decode()+"'>"+ssid[0].decode()+"</option>"
+    return ssidList
 
-try:
-    with open('conf/appList.conf','r') as appList:
-        apps=ujson.load(appList)
-        for app in apps:
-            appsOption = appsOption+'''
-                <options value = "%s">%s</option>
-            ''' % (app,apps[app]["name"])
-        print(appsOption)
-except Exception as e:
-    print('read app list:',e.__class__.__name__,e) 
-    err['info'] = 'read app list:'+e.__class__.__name__,e
 
+def getAppList():
+    appsOption = ""
+    try:
+        with open('conf/appList.conf','r') as appList:
+            apps=ujson.load(appList)
+            for app in apps:
+                appsOption += "<option value='%s'>%s</option>" % (apps[app]['web'],apps[app]["name"])
+            print(appsOption)
+    except Exception as e:
+        print('read app list:',e.__class__.__name__,e) 
+        err['info'] = 'read app list:'+e.__class__.__name__,e
+        appsOption = '''<option value = "">%s</option>''' % e.__class__.__name__
+    return appsOption
 
 ledData = {
-    "option":ssidList,
-    "appsOption":"GOSS",
+    "appsOption":getAppList(),
+    "wifiOption":scanWIFI(),
     "equitNo":"1",
     "towerNo":"1",
     "towerPosition":"d",
     "sensorPoint":"rexroth"
 }
-
+print(ledData)
 
 def indexHandel(socket,args):
     

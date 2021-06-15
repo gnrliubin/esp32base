@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
+    <script src="index.js"></script>
     <title>配置</title>
     
 </head>
@@ -18,7 +19,12 @@
     </div>
     <div id="button-container">
         <div class="button-row"><button onclick="location.href='./webserver/wifi.p.html'">WIFI配网</button></div>
-        <div class="button-row"><button onclick="location.href='./webserver/position.html'">感应器位置</button></div>
+        <div class="select-row">
+            <select name="applist" id="applist">
+                {appsOption}
+            </select>
+        </div>
+        <div class="confirm-row"><button onclick="gotoConfig()">进入配置</button></div>
     </div>
 </body>
 </html>
