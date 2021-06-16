@@ -21,7 +21,7 @@ button, input, select, textarea { font-size:100%; }
     padding-right: 40px;
 }
 #container{
-    margin-top: 80px;
+    margin-top: 50px;
     text-align: center;
 }
 .input-row{
@@ -36,7 +36,22 @@ button, input, select, textarea { font-size:100%; }
     outline: lightskyblue 1px solid;
 }
 .inspector-select{
+    margin-top: 3px;
     height: 32px;
     width: 152px;
     border: grey 1px solid;
+}
+label{
+    color:#999;
+}
+button{
+    margin-top: 20px;
+    width: 150px;
+    height:40px;
+    background-color:#3f86e4;
+    border: none;
+    font-size: large;
+    color:white;
+    letter-spacing:3px;
+    border-radius: 5px;
 }

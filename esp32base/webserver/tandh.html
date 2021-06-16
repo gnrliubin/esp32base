@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="tandh.css">
+    
+    <title>感应器</title>
+</head>
+<body>
+    <div id="banner">
+        <h1>感应器设置</h1>
+        <p>上报印务有限公司</p>
+    </div>
+    <div id="container">
+        <div class="input-row">
+            <label for="equip-name">
+                设备名称<br/>
+                <select name="equip-name" id="equip-name" class="inspector-select">
+                    <option value="goss">高斯</option>
+                    <option value="kba">高宝</option>
+                    <option value="u78">罗兰78</option>
+                </select>
+            </label>
+        </div>
+        <div class="input-row">
+            <label for="equip-no">
+                设备序号<br/>
+                <select name="equip-no" id="equip-no" class="inspector-select">
+                    <option value="1">1号机</option>
+                    <option value="2">2号机</option>
+                    <option value="3">3号机</option>
+                    <option value="4">4号机</option>
+                    <option value="5">5号机(灵石)</option>
+                </select>
+            </label>
+        </div>
+        <div class="input-row">
+            <label for="equip-tower">
+                检测点编号<br/>
+                <select name="equip-tower" id="equip-tower" class="inspector-select" onchange="folder()">
+                    <option value="1">T1</option>
+                    <option value="2">T2</option>
+                    <option value="3">T3</option>
+                    <option value="f">折页机</option>
+                </select>
+            </label>
+        </div>
+        <div class="input-row" id="equit-unit-row">
+            <label for="equip-unit">
+                检测点子编号<br/>
+                <select name="equip-unit" id="equip-unit" class="inspector-select">
+                    <option value="u">上部</option>
+                    <option value="d">下部</option>
+                </select>
+            </label>
+        </div>
+        <div class="input-row">
+            <button onclick="submit()">确定</button>
+        </div>
+    </div>
+    <script src="tandh.js"></script>
+</body>
+</html>
