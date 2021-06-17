@@ -37,5 +37,5 @@ submit = function(){
     
     ssid = setType.checked? wifiMan.value:wifiAuto.value
     pwd = showPwd.checked? wifiPwdShow.value:wifiPwdShow.value
-    location.href="/webserver?ssid="+ssid+"&pwd="+pwd
+    location.href="/setwifi?ssid="+ssid+"&pwd="+pwd
 }

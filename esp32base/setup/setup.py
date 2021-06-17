@@ -72,7 +72,7 @@ ledData = {
 }
 print(ledData)
 
-def indexHandel(socket,args):
+def setwifiHandel(socket,args):
     
     if 'ssid' in args and 'pwd' in args:
         wifi = {
@@ -92,10 +92,21 @@ def indexHandel(socket,args):
     else:
         ESP8266WebServer.ok(socket,"200","nothing to do")
 
+
+def setinspector(socket,args):
+    print(args)
+    if 'tower' in args and 'topic' in args:
+         ESP8266WebServer.ok(socket,"200",args['tower']+"  "+args['topic'])
+    else:
+        ESP8266WebServer.ok(socket,"200","nothing to do")
+
+
+
 ESP8266WebServer.begin(80)
 
-ESP8266WebServer.onPath('/cmd',indexHandel)
-ESP8266WebServer.onPath('/webserver',indexHandel)
+
+ESP8266WebServer.onPath('/setwifi',setwifiHandel)
+ESP8266WebServer.onPath('/setinspector',setinspector)
 ESP8266WebServer.setDocPath('/')
 ESP8266WebServer.setTplData(ledData)
 

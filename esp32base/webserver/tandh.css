@@ -14,10 +14,17 @@ button, input, select, textarea { font-size:100%; }
     letter-spacing:2pt;
     /* color:whitesmoke; */
 }
+#banner h3{
+    padding-top: 5px;
+    font-size: 12pt;
+    letter-spacing:1pt;
+    color: #555;
+    /* color:whitesmoke; */
+}
 #banner p{
     text-align: right;
     font-size: smaller;
-    padding-top: 30px;
+    padding-top: 13px;
     padding-right: 40px;
 }
 #container{

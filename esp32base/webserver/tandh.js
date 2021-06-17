@@ -24,4 +24,5 @@ submit = function(){
 
     topic = 'tandh/'+equipName.value+'/rexroth/'+towerCode
     console.log(topic)
+    location.href="/setinspector?tower="+towerCode+"&topic="+topic
 }
