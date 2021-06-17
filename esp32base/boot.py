@@ -17,15 +17,16 @@ from machine import Pin,I2C
 
 # 全局错误消息字典
 err = {
-    'info':'',
+    'info':''
 }
+appFileName=""
 
 # wifi配置信息判断
 def hasWifiConfig():
+    print('checking wifi conf...')
     try:
         f = open('conf/wifi.conf','r')
         wifiJson = f.read()
-        print(wifiJson)
         wifiDict = ujson.loads(wifiJson)
         print(wifiDict)
         f.close()
@@ -36,6 +37,23 @@ def hasWifiConfig():
     except:
         return False
 
+# 是否已经设置app信息
+def hasInspector():
+    global appFileName
+    print('checking app conf...')
+    try:
+        with open('conf/inspector.conf','r') as f:
+            appDic = ujson.load(f)
+        print(appDic)
+        if appDic['name']:
+            appFileName = appDic['name']+'.py'
+            return True
+        else:
+            return False
+    except Exception as e:
+        return False
+
+
 # ssd1306初始化
 # i2c = I2C(scl=Pin(14), sda=Pin(2), freq=100000)
 i2c = I2C(scl=Pin(25), sda=Pin(26), freq=100000)
@@ -45,7 +63,7 @@ oled = ssd1306.SSD1306_I2C(128,64,i2c)
 boot = Pin(0,Pin.IN)
 
 # 如果有wifi配置信息，则执行3秒等待，等待用户手动进入wifi配网程序
-if hasWifiConfig():
+if hasWifiConfig() and hasInspector():
     # 提示信息
     oled.text("press [boot]",0,0)
     oled.text("to setup",0,10)
@@ -58,8 +76,10 @@ if hasWifiConfig():
     # 读取boot按钮状态
     # 如果boot被按下，则进入WiFi配网程序，否则进入功能程序
     bootValue = boot.value()
-    if bootValue:
-        exec(open('./setup/tandh.py').read(),globals())
+    
+    if bootValue  :
+        print(appFileName)
+        exec(open('./app/'+appFileName).read(),globals())
     else:
         exec(open('./setup/setup.py').read(),globals())
 # 如果没有WiFi配置信息，则自动进入wifi配网程序
