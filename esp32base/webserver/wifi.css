@@ -49,7 +49,7 @@ button, input, select, textarea { font-size:100%; }
 }
 #submit{
     width: 150px;
-    height:50px;
+    height:40px;
     background-color:#3f86e4;
     border: none;
     font-size: large;

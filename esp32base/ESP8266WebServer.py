@@ -93,13 +93,15 @@ def ok(socket, code, *args):
         msg = args[1]
     else:
         raise TypeError("ok() takes 3 or 4 positional arguments but "+ str(len(args)+2) +" were given")
-    socket.write("HTTP/1.1 " + code + " OK\r\n")
-    socket.write("Content-Type: " + content_type + "\r\n\r\n")
-#     if __fileExist(msg):
-#         filePath = msg
-#         __sendPage(socket, filePath)
-#     else:
-    socket.write(msg)
+    # socket.write("HTTP/1.1 " + code + " OK\r\n")
+    # socket.write("Content-Type: " + content_type + "\r\n\r\n")
+    if __fileExist(msg):
+        filePath = msg
+        __sendPage(socket, filePath)
+    else:
+        socket.write("HTTP/1.1 " + code + " OK\r\n")
+        socket.write("Content-Type: " + content_type + "\r\n\r\n")
+        socket.write(msg)
 
 def __fileExist(path):
     """Check for file existence

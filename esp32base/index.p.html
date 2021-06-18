@@ -18,13 +18,18 @@
         <p>上报印务有限公司</p>
     </div>
     <div id="button-container">
-        <div class="button-row"><button onclick="location.href='./webserver/wifi.p.html'">WIFI配网</button></div>
+        <div class="button-row">
+            <p>点击按钮进入配网页面</p>
+            <button onclick="location.href='./webserver/wifi.p.html'">WIFI配网</button>
+        </div>
         <div class="select-row">
+            <p>选择感应器进行配置</p>
             <select name="applist" id="applist">
                 {appsOption}
             </select>
         </div>
         <div class="confirm-row"><button onclick="gotoConfig()">进入配置</button></div>
+        <div class="restart-row"><button id="restart" onclick="location.href='/restart'">重启设备</button></div>
     </div>
 </body>
 </html>

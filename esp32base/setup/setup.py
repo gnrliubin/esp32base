@@ -2,7 +2,7 @@ from network import AP_IF, STA_IF, WLAN
 import random
 import ESP8266WebServer
 import ujson
-
+import machine
 
 
 ##################初始化##########################
@@ -87,6 +87,8 @@ def _unquote(s) :
         except :
             return str(s)
 
+            
+
 #######################路由程序##############################
 
 # setwifi路由
@@ -103,7 +105,7 @@ def setwifiHandel(socket,args):
             wifiJson=ujson.dumps(wifi)
             with open("conf/wifi.conf",'w') as f:
                 f.write(wifiJson)
-            ESP8266WebServer.ok(socket,"200","ok")
+            ESP8266WebServer.ok(socket,"200",'webserver/ok.html')
         except Exception as e :
             print('write wifi.conf:',e.__class__.__name__,e) 
             err['info'] = 'write wifi.conf:'+e.__class__.__name__,e
@@ -124,7 +126,7 @@ def setinspector(socket,args):
         try:
             with open('conf/inspector.conf','w') as f:
                 ujson.dump(inspector,f)
-            ESP8266WebServer.ok(socket,"200",args['tower']+"  "+args['topic'])
+            ESP8266WebServer.ok(socket,"200",'webserver/ok.html')
         except Exception as e:
             print('write wifi.conf:',e.__class__.__name__,e) 
             err['info'] = 'write wifi.conf:'+e.__class__.__name__,e
@@ -132,6 +134,9 @@ def setinspector(socket,args):
     else:
         ESP8266WebServer.ok(socket,"200","nothing to do")
 
+# 重启设备
+def restart(socket,args):
+    machine.reset()
 
 ############################web服务############################
 
@@ -140,6 +145,7 @@ ESP8266WebServer.begin(80)
 
 ESP8266WebServer.onPath('/setwifi',setwifiHandel)
 ESP8266WebServer.onPath('/setinspector',setinspector)
+ESP8266WebServer.onPath('/restart',restart)
 ESP8266WebServer.setDocPath('/')
 ESP8266WebServer.setTplData(ledData)
 
