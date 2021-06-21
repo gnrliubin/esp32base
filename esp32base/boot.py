@@ -12,7 +12,7 @@ gc.collect()
 
 import ujson
 import time
-import ssd1306
+from lib import ssd1306
 from machine import Pin,I2C
 
 # 全局错误消息字典
@@ -46,7 +46,7 @@ def hasInspector():
             appDic = ujson.load(f)
         print(appDic)
         if appDic['name']:
-            appFileName = appDic['name']+'.py'
+            appFileName = appDic['name']+'.py'  #也可以用字典里的app值
             return True
         else:
             return False

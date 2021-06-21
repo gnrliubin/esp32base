@@ -63,10 +63,25 @@ def getAppList():
         appsOption = '''<option value = "">%s</option>''' % e.__class__.__name__
     return appsOption
 
+def getSysConf():
+    company = ""
+    try:
+        with open('conf/system.conf','r') as systmeConf:
+            sysConfDict=ujson.load(systmeConf)
+            company = sysConfDict['company']
+    except Exception as e:
+        print('read app list:',e.__class__.__name__,e) 
+        err['info'] = 'read app list:'+e.__class__.__name__,e
+        
+    return company
+
+
 # 模板变量
 ledData = {
+    "company":getSysConf(),
     "appsOption":getAppList(),
     "wifiOption":scanWIFI(),
+    "errInfo":"",
     "equitNo":"1",
     "towerNo":"1",
     "towerPosition":"d",
@@ -105,13 +120,15 @@ def setwifiHandel(socket,args):
             wifiJson=ujson.dumps(wifi)
             with open("conf/wifi.conf",'w') as f:
                 f.write(wifiJson)
-            ESP8266WebServer.ok(socket,"200",'webserver/ok.html')
+            ESP8266WebServer.ok(socket,"200",'webserver/ok.p.html')
         except Exception as e :
             print('write wifi.conf:',e.__class__.__name__,e) 
             err['info'] = 'write wifi.conf:'+e.__class__.__name__,e
-            ESP8266WebServer.ok(socket,"200",'write wifi.conf:'+e.__class__.__name__,e)   
+            ledData['errInfo'] = 'write wifi.conf:'+e.__class__.__name__,e
+            ESP8266WebServer.ok(socket,"200","webserver/err.p.html")
     else:
-        ESP8266WebServer.ok(socket,"200","nothing to do")
+        ledData['errInfo'] = '输入参数有误'
+        ESP8266WebServer.ok(socket,"200","webserver/err.p.html")
 
 # setinspector路由
 def setinspector(socket,args):
@@ -126,13 +143,15 @@ def setinspector(socket,args):
         try:
             with open('conf/inspector.conf','w') as f:
                 ujson.dump(inspector,f)
-            ESP8266WebServer.ok(socket,"200",'webserver/ok.html')
+            ESP8266WebServer.ok(socket,"200",'webserver/ok.p.html')
         except Exception as e:
             print('write wifi.conf:',e.__class__.__name__,e) 
-            err['info'] = 'write wifi.conf:'+e.__class__.__name__,e
-            ESP8266WebServer.ok(socket,"200",'write wifi.conf:'+e.__class__.__name__,e)       
+            err['info'] = 'write inspector:'+e.__class__.__name__,e
+            ledData['errInfo'] = 'write inspector:'+e.__class__.__name__,e
+            ESP8266WebServer.ok(socket,"200","webserver/err.p.html")
     else:
-        ESP8266WebServer.ok(socket,"200","nothing to do")
+        ledData['errInfo'] = '输入参数有误'
+        ESP8266WebServer.ok(socket,"200","webserver/err.p.html")
 
 # 重启设备
 def restart(socket,args):

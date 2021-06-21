@@ -97,7 +97,18 @@ def ok(socket, code, *args):
     # socket.write("Content-Type: " + content_type + "\r\n\r\n")
     if __fileExist(msg):
         filePath = msg
-        __sendPage(socket, filePath)
+        if filePath.endswith(".p.html"):
+            print("result template page.")
+            try:
+                f = open(filePath, "r")
+                for l in f:
+                    socket.write(l.format(**tplData))
+                f.close()
+            except Exception as e:
+                print('server err:',e.__class__.__name__,e) 
+        else:
+            __sendPage(socket, filePath)
+        # __sendPage(socket, filePath)
     else:
         socket.write("HTTP/1.1 " + code + " OK\r\n")
         socket.write("Content-Type: " + content_type + "\r\n\r\n")

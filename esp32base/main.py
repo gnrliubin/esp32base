@@ -8,5 +8,10 @@ def main():
     oled.show()
 
     
+    print(sta.ifconfig())
+
+    print('rebooting')
+    machine.reset()
+
 if __name__ == '__main__':
     main()

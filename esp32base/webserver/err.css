@@ -1,0 +1,46 @@
+body, h1, h2, h3, h4, h5, h6, hr, p, button, input, textarea{ margin:0; padding:0; }
+body, button, input, select, textarea { font:12px/1.5tahoma, arial, \5b8b\4f53; }
+h1, h2, h3, h4, h5, h6{ font-size:100%; }
+button, input, select, textarea { font-size:100%; }
+#banner{
+    height:130px;
+    width:100%;
+    background-color:tomato;
+    text-align: center;
+    color: white;
+
+}
+#banner h1{
+    padding-top: 30px;
+    font-size: 20pt;
+    letter-spacing:2pt;
+    /* color:whitesmoke; */
+}
+#banner p{
+    text-align: right;
+    font-size: smaller;
+    padding-top: 30px;
+    padding-right: 40px;
+}
+
+#container{
+    margin-top: 80px;
+    text-align: center;
+}
+.input-row{
+    margin-top: 40px;
+    color: tomato;
+}
+button{
+    width: 150px;
+    height:50px;
+    background-color:#3f86e4;
+    border: none;
+    font-size: large;
+    color:white;
+    letter-spacing:3px;
+    border-radius: 5px;
+}
+#restart {
+    background-color:rgb(230, 62, 11) !important;
+}
