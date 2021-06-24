@@ -35,6 +35,7 @@ def hasWifiConfig():
         else:
             return False
     except:
+        print("no wifi conf")
         return False
 
 # 是否已经设置app信息

@@ -4,12 +4,12 @@ import ujson
 import dht 
 import time
 from umqtt.simple import MQTTClient
-from machine import Pin
+from machine import Pin,WDT
 import usys
-
+import micropython
 
 global err
-
+wdt = WDT(timeout = 5000)
 
 ##################读取配置##########################
 # 读取wifi配置并尝试连接wifi
@@ -20,13 +20,22 @@ try:
 except Exception as e:
     print('read wifi:',e.__class__.__name__,e) 
     err['info'] = 'read wifi:',e.__class__.__name__,e
+    usys.exit()
+
 print("ssid = " +wifiConf['ssid'])
+wdt.feed()
+
+oled.fill(0)
+oled.text(wifiConf['ssid'],0,10)
+oled.text("connecting ...",0,20)
+oled.show()
 
 sta = WLAN(STA_IF)
 sta.active(True)
 sta.connect(wifiConf['ssid'],wifiConf['pwd'])
 while not sta.isconnected():
-    pass
+    wdt.feed()
+    time.sleep(1)
 print(sta.isconnected())
 print(sta.ifconfig())
 
@@ -38,7 +47,8 @@ try:
 except Exception as e:
     print('read inspector:',e.__class__.__name__,e) 
     err['info'] = 'read inspector:',e.__class__.__name__,e
-
+    usys.exit()
+wdt.feed()
 
 
 #######################应用功能实现########################
@@ -61,6 +71,7 @@ oled.text(inspector['tower'],0,0)
 oled.text(str(sta.ifconfig()[0]),0,20)
 oled.show()
 
+wdt.feed()
 client = MQTTClient(clientid,server="measure.sumg.press",user="goss_rexroth",password="goss_rexroth_1234",port=8883,ssl=True,keepalive=5)
 payloadJson = ujson.dumps(payload)
 print(payloadJson)
@@ -73,6 +84,8 @@ except Exception as e:
         err['info'] = 'connect:',e.__class__.__name__,e
         usys.exit()
         # machine.reset()
+
+wdt.feed()
 
 oled.text("mqtt connected!",0,40)
 oled.show()
@@ -89,7 +102,15 @@ while True:
         payload['r']= sta.status("rssi")
         payloadJson = ujson.dumps(payload)
         print(payloadJson)
-    
+    except Exception as e:
+        print("dht22 error,restart:",e.__class__.__name__,e)
+        payload['status'] = "DHTError"
+        payload['t'] = 0
+        payload['h'] = 0
+        payload['r']=sta.status("rssi")
+        payloadJson = ujson.dumps(payload)
+        print(payloadJson)
+    try:
         client.publish(inspector['topic'], payloadJson)
     except Exception as e:
         print("publish:",e.__class__.__name__,e)
@@ -99,5 +120,6 @@ while True:
     # print("t: "+str(t)+" °C")
     # print("h: "+str(h)+" %RH")
     # print(wlan.status("rssi"))
-    
+    print(micropython.mem_info())
+    wdt.feed()
     time.sleep(1)
